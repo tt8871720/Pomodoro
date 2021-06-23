@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Nav />
+    <div class="content d-flex">
+      <div class="button">
+        <router-link to="pomo" class="button__box"
+          ><button class="content-btn">Start pomodoro</button></router-link
+        >
+        <router-link to="task" class="button__box"
+          ><button class="content-btn">Choose task</button></router-link
+        >
+      </div>
+      <div class="image">
+        <img src="@img/marketing.svg" alt="marketing.svg" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import Nav from "@com/Nav.vue";
 export default {
   name: "Home",
   components: {
-    HelloWorld
+    Nav
   }
 };
 </script>
+<style lang="scss" scoped></style>
