@@ -31,19 +31,9 @@
             <div class="task__list__pages" v-show="todoList.length">
               <div class="task__list__pages__detailed">
                 <!-- todoList -->
-                <vuedraggable
-                  class="wrapper"
-                  v-model="todoList"
-                  v-show="isTodo"
-                >
+                <vuedraggable class="wrapper"  v-model="todoList" v-show="isTodo">
                   <!-- <transition-group> -->
-                  <!-- 迴圈結果 -->
-                  <div
-                    class="task__list__pages__detailed-wrapper"
-                    v-for="(task, index) in todoList"
-                    :key="task.id"
-                    v-if="!task.done"
-                  >
+                  <div class="task__list__pages__detailed-wrapper" v-for="(task, index) in todoList" :key="task.id" v-if="!task.done">
                     <div class="task__list__pages__detailed__item">
                       <div
                         class="task__list__pages__detailed__item__name"
@@ -81,45 +71,25 @@
                         </div>
                       </div>
                     </div>
-                    <div
-                      class="task__list__pages__detailed__freq"
-                      :class="{ 'freqin-todo': isTodo }"
-                    >
-                      <div
-                        class="freq-icon"
-                        v-for="(freq, index) in task.frequency"
-                        :key="index"
-                      ></div>
+                    <div class="task__list__pages__detailed__freq" :class="{ 'freqin-todo': isTodo }">
+                      <div class="freq-icon" v-for="(freq, index) in task.frequency" :key="index"></div>
                     </div>
                   </div>
                   <!-- </transition-group> -->
                 </vuedraggable>
                 <!-- doneList -->
-                <!-- 迴圈結果 -->
-                <div
-                  class="task__list__pages__detailed-wrapper"
-                  v-for="(task, index) in doneList"
-                  :key="task.id"
-                  v-show="!isTodo"
-                >
+                <div class="task__list__pages__detailed-wrapper" v-for="(task, index) in doneList" :key="task.id" v-show="!isTodo">
                   <div class="task__list__pages__detailed__item">
-                    <div
-                      class="task__list__pages__detailed__item__name"
-                      @click="doneTask(index)"
-                    >
+                    <div class="task__list__pages__detailed__item__name" @click="doneTask(index)">
                       <div class="btn-radio" v-show="!task.done"></div>
                       <div :name="index">{{ task.name }}</div>
                     </div>
                     <div class="task__list__pages__detailed__item__date">
-                      {{ task.id.substr(0, 9) }}
+                      {{ task.id.substr(0, 9).replace(/\//gi,"-") }}
                     </div>
                   </div>
                   <div class="task__list__pages__detailed__freq">
-                    <div
-                      class="freq-icon"
-                      v-for="(freq, index) in task.frequency"
-                      :key="index"
-                    ></div>
+                    <div class="freq-icon" v-for="(freq, index) in task.frequency" :key="index"></div>
                   </div>
                 </div>
               </div>
@@ -170,15 +140,6 @@ export default {
     localStorage.setItem("doneList", JSON.stringify(this.doneList));
   },
   created() {
-    // ...mapState(["end","taskIndex"])
-    if (this.$store.state.end) {
-      var index = this.$store.state.taskIndex;
-      var freq = this.todoList[index].frequency;
-      this.$set(this.todoList[index], "frequency", freq + 1);
-      localStorage.setItem("todoList", JSON.stringify(this.todoList));
-      this.$store.dispatch("taskDone", false);
-    }
-    // console.log(this.$store.state.end)
   },
   watch: {
     // isTodo: "assignStatus"
@@ -218,8 +179,8 @@ export default {
       localStorage.setItem("todoList", JSON.stringify(this.todoList));
     },
     chooseTask(index, freq) {
-      console.log("index", index);
-      console.log("frequency", freq);
+      // console.log("index", index);
+      // console.log("frequency", freq);
       this.$store.dispatch("indexGet", index);
       this.$store.dispatch("listGet", this.todoList);
     },
@@ -228,9 +189,6 @@ export default {
     }
   },
   computed: {
-    todo() {
-      return this.taskList.filter(t => !t.done);
-    },
     doneList() {
       return this.todoList.filter(t => t.done);
     }

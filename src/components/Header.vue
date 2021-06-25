@@ -15,7 +15,13 @@
 </template>
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  methods: {
+    toAnalytics() {
+      var todoList = localStorage.getItem("todoList");
+      this.$store.dispatch("listGet", todoList);
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

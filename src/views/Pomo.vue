@@ -99,12 +99,15 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["taskDone"]),
     onCountdownEnd() {
       this.isEnd = true;
       //乎交freq +1
-      this.taskDone(true);
-      // console.log(this.$store.state.end)
+      var index = this.nowIndex;
+      var freq = this.todoList[index].frequency;
+      this.$set(this.todoList[index], "frequency", freq + 1);
+      localStorage.setItem("todoList", JSON.stringify(this.todoList));
+      // console.log("frequency",freq)
+      // console.log("index",index)
     },
     timereset() {
       this.isStart = false;
@@ -130,6 +133,12 @@ export default {
       return this.allLsit[this.taskIndex]
         ? this.allLsit[this.taskIndex].name
         : "Unknow Task";
+    },
+    nowIndex(){
+      return this.taskIndex;
+    },
+    todoList(){
+      return this.allLsit;
     }
   },
   mounted() {}
