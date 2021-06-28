@@ -85,7 +85,7 @@
                       <div :name="index">{{ task.name }}</div>
                     </div>
                     <div class="task__list__pages__detailed__item__date">
-                      {{ task.id.substr(0, 9).replace(/\//gi,"-") }}
+                      {{ new Date(task.id).toLocaleDateString().substr(0,9) }}
                     </div>
                   </div>
                   <div class="task__list__pages__detailed__freq">
@@ -121,6 +121,7 @@
 <script>
 import vuedraggable from "vuedraggable";
 import { mapActions, mapState } from "vuex";
+let moment = require("moment");
 
 export default {
   name: "Task",
@@ -146,9 +147,8 @@ export default {
   methods: {
     addTask(arr, item) {
       if (item != "") {
-        var nowTime = new Date().toLocaleString();
         var task = {};
-        task.id = nowTime;
+        task.id = moment().valueOf();
         task.name = item;
         task.done = false;
         task.frequency = 0;

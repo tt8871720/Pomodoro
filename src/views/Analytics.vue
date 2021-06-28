@@ -7,8 +7,20 @@
         </div>
         <div class="col-12 col-md-6">
           <div class="task__status mb-4">
-            <div class="nav__title task__status__title ml-md-auto" :class="{ 'status-clicked': isToday }" @click="isToday=true">Today</div>
-            <div class="nav__title task__status__title" :class="{ 'status-clicked': !isToday }" @click="isToday=false">Weekly</div>
+            <div
+              class="nav__title task__status__title ml-md-auto"
+              :class="{ 'status-clicked': isToday }"
+              @click="isToday = true"
+            >
+              Today
+            </div>
+            <div
+              class="nav__title task__status__title"
+              :class="{ 'status-clicked': !isToday }"
+              @click="isToday = false"
+            >
+              Weekly
+            </div>
           </div>
         </div>
       </div>
@@ -17,33 +29,66 @@
           <div class="analytics__statistics">
             <div class="analytics__statistics__date">
               <!-- <date-picker v-model="todayTimeStamps" :clearable="false"></date-picker> -->
-              <date-picker v-if="isToday" v-model="todayTimeStamps" valueType="timestamp" :clearable = "false"></date-picker>
-              <date-picker v-if="!isToday" v-model="weekTimeStamps" valueType="timestamp" :clearable = "false" range></date-picker>
+              <date-picker
+                v-if="isToday"
+                v-model="todayTimeStamps"
+                valueType="timestamp"
+                :clearable="false"
+              ></date-picker>
+              <date-picker
+                v-if="!isToday"
+                v-model="weekTimeStamps"
+                valueType="timestamp"
+                :clearable="false"
+                range
+              ></date-picker>
             </div>
-            <div class="analytics__statistics__info">Pomodoros : {{pomodoros}}</div>
-            <div class="analytics__statistics__info">Tasks : {{tasks}}</div>
-            <div class="analytics__statistics__info">Completed : {{completed}}</div>
-            <div class="analytics__statistics__info">Focus time : {{focusTime}}</div>
+            <div class="analytics__statistics__info">
+              Pomodoros : {{ pomodoros }}
+            </div>
+            <div class="analytics__statistics__info">Tasks : {{ tasks }}</div>
+            <div class="analytics__statistics__info">
+              Completed : {{ completed }}
+            </div>
+            <div class="analytics__statistics__info">
+              Focus time : {{ focusTime }}
+            </div>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="analytics__task">
-            <div class="analytics__task__empty" v-if="!analyticsList.length">Oops no task here!</div>
-            <div class="task__list__pages__detailed-wrapper" v-for="(task, index) in analyticsList" :key="task.id" v-if="isToday">
+            <div class="analytics__task__empty" v-if="!analyticsList.length">
+              Oops no task here!
+            </div>
+            <div
+              class="task__list__pages__detailed-wrapper"
+              v-for="(task, index) in analyticsList"
+              :key="task.id"
+            >
               <div class="task__list__pages__detailed__item">
-                <div class="task__list__pages__detailed__item__name" @click="doneTask(index)">
+                <div
+                  class="task__list__pages__detailed__item__name"
+                  @click="doneTask(index)"
+                >
                   <div :name="index">{{ task.name }}</div>
-                  <div class="task__list__pages__detailed__item__name__icon" v-if="task.done">
+                  <div
+                    class="task__list__pages__detailed__item__name__icon"
+                    v-if="task.done"
+                  >
                     <font-awesome-icon :icon="['far', 'check-circle']" />
-                   </div>
+                  </div>
                 </div>
                 <div class="task__list__pages__detailed__item__time">
-                  {{task.frequency * 25}}mins
+                  {{ task.frequency * 25 }}mins
                   <!-- {{ (task.id.substr(0, 9)).replace(/\//gi,"-") }} -->
                 </div>
               </div>
               <div class="task__list__pages__detailed__freq">
-                <div class="freq-icon" v-for="(freq, index) in task.frequency" :key="index"></div>
+                <div
+                  class="freq-icon"
+                  v-for="(freq, index) in task.frequency"
+                  :key="index"
+                ></div>
               </div>
             </div>
           </div>
@@ -67,36 +112,49 @@ export default {
         : [],
       isToday: true,
       todayTimeStamps: new Date().getTime(),
-      weekTimeStamps: [moment().subtract(7, 'days').valueOf(), moment().valueOf()]
+      weekTimeStamps: [
+        moment().subtract(7, "days").valueOf(),
+        moment().valueOf(),
+      ],
     };
   },
   computed: {
-    weekDate() {
-      var weekArr = this.weekTimeStamps.map(function(timestamps) {
-        return moment(timestamps).format("YYYY-MM-DD");
-      });
-      return weekArr;
-    },
     analyticsList() {
       if (this.isToday) {
-        var pickedDate = moment(this.todayTimeStamps).format("YYYY-M-D").replace(/-/gi,"/");
-        return this.todoList.filter(t => t.id.substr(0, 9) == pickedDate);
+        var pickedDate = moment(this.todayTimeStamps)
+          .format("YYYY-M-D")
+          .replace(/-/gi, "/");
+        return this.todoList.filter(
+          (t) =>
+            moment(t.id).format("YYYY-M-D").replace(/-/gi, "/") == pickedDate
+        );
       } else {
-        var weekList = this.todoList.map(function(list){
-          // var listId = list.id.substr(0, 9)
-          // var inWeek = moment('2018-11-02').isBetween(this.weekDate[0], this.weekDate[1]); 
-          // console.log('inWeek',inWeek)
-          // console.log('list',list.id)
-        })
-        return this.todoList.filter(t => t.id.substr(0, 9) == pickedDate);
+        var fromDate = new Date(this.weekTimeStamps[0]);
+        var toDate = new Date(this.weekTimeStamps[1]);
+        var weekList = this.todoList.filter(function(item){
+          // console.log("大於fromData",new Date(item.id) >= fromDate);
+          // console.log("小於toData",new Date(item.id) < toDate);
+          // console.log('list',new Date(item.id).toLocaleDateString().substr(0,9)); 
+          // console.log('toDate',toDate.toLocaleDateString().substr(0,9)); 
+          var itemDateStr = new Date(item.id).toLocaleDateString().substr(0,9);
+          var toDateStr = toDate.toLocaleDateString().substr(0,9);
+          return new Date(item.id) >= fromDate && new Date(item.id) < toDate && itemDateStr!=toDateStr||itemDateStr==toDateStr;
+        });
+        console.log(weekList);
+        return weekList;
+        // return this.todoList;
       }
     },
     pomodoros() {
       var count = 0;
-      this.analyticsList.forEach(element => {
-        count = count + element.frequency;
-      });
-      return count;
+      if (this.analyticsList.length) {
+        this.analyticsList.forEach((element) => {
+          count = count + element.frequency;
+        });
+        return count;
+      } else {
+        return 0;
+      }
     },
     tasks() {
       return this.analyticsList.length;
@@ -112,15 +170,15 @@ export default {
       }
     },
     completed() {
-      return this.analyticsList.filter(a => a.done).length;
+      return this.analyticsList.filter((a) => a.done).length;
     }
   },
   updated() {
-    console.log("weekTimeStamps", this.weekTimeStamps);
+    // console.log("weekTimeStamps", this.weekTimeStamps);
     // console.log("2021/6/28", moment('2021/6/23 上午10:52:28').valueOf().format("YYYY-MM-DD"));
     // console.log("analyticsList", this.analyticsList);
-    console.log("weekDate", this.weekDate);
-  }
+    // console.log('區間',moment('2021-06-28').isBetween('2021-06-21', '2021-06-28', undefined, '[]'))
+  },
 };
 </script>
 <style lang="scss" scoped>
