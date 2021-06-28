@@ -110,10 +110,10 @@
               <button class="addtask-btn" @click="addTask(todoList, taskInput)">
                 Add Task
               </button>
+              <button class="addtask-btn cleartask-btn" @click="clearTask">Clear all Tasks</button>
             </div>
           </div>
         </div>
-        <button class="addtask-btn" @click="clearTask">Clear all Tasks</button>
       </div>
     </div>
   </div>
@@ -139,8 +139,7 @@ export default {
     localStorage.setItem("todoList", JSON.stringify(this.todoList));
     localStorage.setItem("doneList", JSON.stringify(this.doneList));
   },
-  created() {
-  },
+  created() {},
   watch: {
     // isTodo: "assignStatus"
   },
@@ -295,15 +294,6 @@ export default {
       }
     }
     &__btn {
-      .addtask-btn {
-        font-size: 20px;
-        color: $main_bg;
-        background-color: $second_txt;
-        border-radius: 4px;
-        display: block;
-        margin-left: auto;
-        padding: 3px 35px;
-      }
     }
   }
 }
@@ -320,6 +310,19 @@ export default {
   &:hover {
     background-color: $second_txt;
   }
+}
+.addtask-btn {
+  font-size: 20px;
+  color: $main_bg;
+  background-color: $second_txt;
+  border-radius: 4px;
+  display: block;
+  margin-left: auto;
+  padding: 3px 35px;
+}
+.cleartask-btn {
+  background-color: #d02210;
+  margin-top: 40px;
 }
 @include lg-media() {
   .task__list__pages__detailed__item__func__icon {

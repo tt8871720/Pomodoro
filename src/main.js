@@ -8,7 +8,9 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import "bootstrap"; // Import js file
 import "bootstrap/dist/css/bootstrap.min.css"; // Import css file
+import moment from 'moment';
 import $ from "jquery";
+
 
 window.$ = $;
 library.add(fas,far);
