@@ -31,9 +31,18 @@
             <div class="task__list__pages" v-show="todoList.length">
               <div class="task__list__pages__detailed">
                 <!-- todoList -->
-                <vuedraggable class="wrapper"  v-model="todoList" v-show="isTodo">
+                <vuedraggable
+                  class="wrapper"
+                  v-model="todoList"
+                  v-show="isTodo"
+                >
                   <!-- <transition-group> -->
-                  <div class="task__list__pages__detailed-wrapper" v-for="(task, index) in todoList" :key="task.id" v-if="!task.done">
+                  <div
+                    class="task__list__pages__detailed-wrapper"
+                    v-for="(task, index) in todoList"
+                    :key="task.id"
+                    v-if="!task.done"
+                  >
                     <div class="task__list__pages__detailed__item">
                       <div
                         class="task__list__pages__detailed__item__name"
@@ -71,25 +80,44 @@
                         </div>
                       </div>
                     </div>
-                    <div class="task__list__pages__detailed__freq" :class="{ 'freqin-todo': isTodo }">
-                      <div class="freq-icon" v-for="(freq, index) in task.frequency" :key="index"></div>
+                    <div
+                      class="task__list__pages__detailed__freq"
+                      :class="{ 'freqin-todo': isTodo }"
+                    >
+                      <div
+                        class="freq-icon"
+                        v-for="(freq, index) in task.frequency"
+                        :key="index"
+                      ></div>
                     </div>
                   </div>
                   <!-- </transition-group> -->
                 </vuedraggable>
                 <!-- doneList -->
-                <div class="task__list__pages__detailed-wrapper" v-for="(task, index) in doneList" :key="task.id" v-show="!isTodo">
+                <div
+                  class="task__list__pages__detailed-wrapper"
+                  v-for="(task, index) in doneList"
+                  :key="task.id"
+                  v-show="!isTodo"
+                >
                   <div class="task__list__pages__detailed__item">
-                    <div class="task__list__pages__detailed__item__name" @click="doneTask(index)">
+                    <div
+                      class="task__list__pages__detailed__item__name"
+                      @click="doneTask(index)"
+                    >
                       <div class="btn-radio" v-show="!task.done"></div>
                       <div :name="index">{{ task.name }}</div>
                     </div>
                     <div class="task__list__pages__detailed__item__date">
-                      {{ new Date(task.id).toLocaleDateString().substr(0,9) }}
+                      {{ new Date(task.id).toLocaleDateString().substr(0, 9) }}
                     </div>
                   </div>
                   <div class="task__list__pages__detailed__freq">
-                    <div class="freq-icon" v-for="(freq, index) in task.frequency" :key="index"></div>
+                    <div
+                      class="freq-icon"
+                      v-for="(freq, index) in task.frequency"
+                      :key="index"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -110,7 +138,9 @@
               <button class="addtask-btn" @click="addTask(todoList, taskInput)">
                 Add Task
               </button>
-              <button class="addtask-btn cleartask-btn" @click="clearTask">Clear all Tasks</button>
+              <button class="addtask-btn cleartask-btn" @click="clearTask">
+                Clear all Tasks
+              </button>
             </div>
           </div>
         </div>

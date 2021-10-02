@@ -113,9 +113,11 @@ export default {
       isToday: true,
       todayTimeStamps: new Date().getTime(),
       weekTimeStamps: [
-        moment().subtract(7, "days").valueOf(),
-        moment().valueOf(),
-      ],
+        moment()
+          .subtract(7, "days")
+          .valueOf(),
+        moment().valueOf()
+      ]
     };
   },
   computed: {
@@ -125,20 +127,27 @@ export default {
           .format("YYYY-M-D")
           .replace(/-/gi, "/");
         return this.todoList.filter(
-          (t) =>
-            moment(t.id).format("YYYY-M-D").replace(/-/gi, "/") == pickedDate
+          t =>
+            moment(t.id)
+              .format("YYYY-M-D")
+              .replace(/-/gi, "/") == pickedDate
         );
       } else {
         var fromDate = new Date(this.weekTimeStamps[0]);
         var toDate = new Date(this.weekTimeStamps[1]);
-        var weekList = this.todoList.filter(function(item){
+        var weekList = this.todoList.filter(function(item) {
           // console.log("大於fromData",new Date(item.id) >= fromDate);
           // console.log("小於toData",new Date(item.id) < toDate);
-          // console.log('list',new Date(item.id).toLocaleDateString().substr(0,9)); 
-          // console.log('toDate',toDate.toLocaleDateString().substr(0,9)); 
-          var itemDateStr = new Date(item.id).toLocaleDateString().substr(0,9);
-          var toDateStr = toDate.toLocaleDateString().substr(0,9);
-          return new Date(item.id) >= fromDate && new Date(item.id) < toDate && itemDateStr!=toDateStr||itemDateStr==toDateStr;
+          // console.log('list',new Date(item.id).toLocaleDateString().substr(0,9));
+          // console.log('toDate',toDate.toLocaleDateString().substr(0,9));
+          var itemDateStr = new Date(item.id).toLocaleDateString().substr(0, 9);
+          var toDateStr = toDate.toLocaleDateString().substr(0, 9);
+          return (
+            (new Date(item.id) >= fromDate &&
+              new Date(item.id) < toDate &&
+              itemDateStr != toDateStr) ||
+            itemDateStr == toDateStr
+          );
         });
         console.log(weekList);
         return weekList;
@@ -148,7 +157,7 @@ export default {
     pomodoros() {
       var count = 0;
       if (this.analyticsList.length) {
-        this.analyticsList.forEach((element) => {
+        this.analyticsList.forEach(element => {
           count = count + element.frequency;
         });
         return count;
@@ -170,7 +179,7 @@ export default {
       }
     },
     completed() {
-      return this.analyticsList.filter((a) => a.done).length;
+      return this.analyticsList.filter(a => a.done).length;
     }
   },
   updated() {
@@ -178,7 +187,7 @@ export default {
     // console.log("2021/6/28", moment('2021/6/23 上午10:52:28').valueOf().format("YYYY-MM-DD"));
     // console.log("analyticsList", this.analyticsList);
     // console.log('區間',moment('2021-06-28').isBetween('2021-06-21', '2021-06-28', undefined, '[]'))
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
